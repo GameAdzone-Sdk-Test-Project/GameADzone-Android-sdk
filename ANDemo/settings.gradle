@@ -1,0 +1,3 @@
+include ':GazLibrary-release'
+include ':app'
+rootProject.name = "AndroidDemo"
