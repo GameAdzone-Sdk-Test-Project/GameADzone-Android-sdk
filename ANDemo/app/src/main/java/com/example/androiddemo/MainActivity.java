@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.rewarded.RewardItem;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 //import com.gamead
@@ -27,7 +28,8 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-Activity activity =null;
+    Activity activity =null;
+    LinearLayout mainlayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +59,9 @@ Activity activity =null;
         layout.setOrientation(LinearLayout.VERTICAL);
         layout.setGravity(Gravity.CENTER);
 
-
-
+        layout.setLayoutParams(new LinearLayout.LayoutParams
+                (LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT));
 
 
         Button showBannerAD =new Button(getApplicationContext());
@@ -78,10 +81,10 @@ Activity activity =null;
                 bannerLayout.setLayoutParams(new LinearLayout.LayoutParams
                         (LinearLayout.LayoutParams.WRAP_CONTENT,
                                 LinearLayout.LayoutParams.MATCH_PARENT));
-               if(GameADzoneBanner.isLoaded())
-               {
-                   bannerLayout.addView(GameADzoneBanner.showView());   //how to add banner ad into your layout
-               }
+                if(GameADzoneBanner.isLoaded())
+                {
+                    bannerLayout.addView(GameADzoneBanner.showView());   //how to add banner ad into your layout
+                }
 
                 layout.addView(bannerLayout);
             }
@@ -149,7 +152,7 @@ Activity activity =null;
                 if(GameADzoneRectangle.isLoaded())
                 {
 
-                    rectBannerLayout.addView(GameADzoneRectangle.loadView());
+                    rectBannerLayout.addView(GameADzoneRectangle.showView());
 
                 }
                 layout.addView(rectBannerLayout);
@@ -206,25 +209,6 @@ Activity activity =null;
         Button overlayAd=new Button(getApplicationContext());
         overlayAd.setText("Show Overlay Ad");
 
-        Button b7=new Button(getApplicationContext());
-        b7.setText("Hide BannerAd");
-
-        Button b8=new Button(getApplicationContext());
-        b8.setText("Hide RectBanner Ad");
-
-
-
-
-        layout.setLayoutParams(new LinearLayout.LayoutParams
-                (LinearLayout.LayoutParams.WRAP_CONTENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT));
-
-
-
-
-
-
-
 
         overlayAd.setLayoutParams(new LinearLayout.LayoutParams
                 (LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -234,49 +218,42 @@ Activity activity =null;
             @Override
             public void onClick(View view) {
                 Toast.makeText(getBaseContext(),"Clicked",Toast.LENGTH_SHORT).show();
-               if(GameADzoneOverlayAd.isLoaded())
-               {
-                   GameADzoneOverlayAd.Show();
-               }
+                if(GameADzoneOverlayAd.isLoaded())
+                {
+                    GameADzoneOverlayAd.Show();
+                }
 
             }
         });
-        b7.setLayoutParams(new LinearLayout.LayoutParams
+
+        Button hideBanner=new Button(getApplicationContext());
+        hideBanner.setText("Hide BannerAd");
+
+
+        hideBanner.setLayoutParams(new LinearLayout.LayoutParams
                 (LinearLayout.LayoutParams.WRAP_CONTENT,
                         LinearLayout.LayoutParams.MATCH_PARENT));
-        b8.setLayoutParams(new LinearLayout.LayoutParams
-                (LinearLayout.LayoutParams.WRAP_CONTENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT));
+        layout.addView(hideBanner);
 
-
-
-
-
-
-
-
-
-
-
-        layout.addView(b7);
-        layout.addView(b8);
-
-        setContentView(layout);
-
-
-
-
-
-
-
-        b7.setOnClickListener(new View.OnClickListener() {
+        hideBanner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getBaseContext(),"Clicked",Toast.LENGTH_SHORT).show();
                 GameADzoneBanner.Hidden();
             }
         });
-        b8.setOnClickListener(new View.OnClickListener() {
+
+
+        Button hideRectBanner=new Button(getApplicationContext());
+        hideRectBanner.setText("Hide RectBanner Ad");
+
+
+        hideRectBanner.setLayoutParams(new LinearLayout.LayoutParams
+                (LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT));
+        layout.addView(hideRectBanner);
+        setContentView(layout);
+        hideRectBanner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getBaseContext(),"Clicked",Toast.LENGTH_SHORT).show();
@@ -284,10 +261,68 @@ Activity activity =null;
             }
         });
 
-    }
+        Button AppopenAd=new Button(getApplicationContext());
+        AppopenAd.setText("Show AppOpen");
+        AppopenAd.setLayoutParams(new LinearLayout.LayoutParams
+                (LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT));
+        layout.addView(AppopenAd);
+        AppopenAd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getBaseContext(),"Clicked",Toast.LENGTH_SHORT).show();
+                if(GameADzoneAppOpenAd.isLoaded())
+                {
+                    GameADzoneAppOpenAd.show();
+                }
+            }
+        });
 
+        Button rewardAd=new Button(getApplicationContext());
+        rewardAd.setText("Show RewardVideo");
+        rewardAd.setLayoutParams(new LinearLayout.LayoutParams
+                (LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT));
+        layout.addView(rewardAd);
+        rewardAd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getBaseContext(),"Clicked",Toast.LENGTH_SHORT).show();
+
+                if(GameAdzoneRewardedAd.isLoaded())
+                {
+                    GameAdzoneRewardedAd.Show();
+                }
+
+            }
+        });
+
+        GameAdzoneRewardAdListener.setRewardVideoListener(new GameAdzoneRewardAdListener.RewardVideoListener() {
+            @Override
+            public void onRewardAdLoaded() {
+                Log.v("GameAdzoneReward","onRewardAdLoaded");
+            }
+
+            @Override
+            public void onRewardAdFailedToLoad(int i) {
+                Log.v("GameAdzoneReward","onRewardAdFailedToLoad");
+            }
+
+            @Override
+            public void onUserEarnedReward(RewardItem rewardItem) {
+                Log.v("GameAdzoneReward","onUserEarnedReward");
+            }
+        });
+
+
+    }
+public void BannerAd()
+{
+
+}
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
